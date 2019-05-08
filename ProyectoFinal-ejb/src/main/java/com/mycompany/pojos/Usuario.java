@@ -5,13 +5,18 @@
  */
 package com.mycompany.pojos;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import javax.ejb.Stateless;
 
 /**
  *
- * @author Darkgrey93
+ * @author fetec
  */
-public class Usuario implements Serializable {
+@Stateless
+public class Usuario implements UsuarioLocal {
+
+    // Add business logic below. (Right-click in editor and choose
+    // "Insert Code > Add Business Method")
     private Integer id;
     private String usuario;
     private String clave;
@@ -57,5 +62,27 @@ public class Usuario implements Serializable {
 
     public void setCorreo(String correo) {
         this.correo = correo;
+    }
+    
+    @Override
+    public ArrayList<Usuario> getUsuarios() {
+        ArrayList<Usuario> usuarios= new ArrayList<>();
+        return usuarios;
+    }
+
+    @Override
+    public void setUsuarios(ArrayList<Usuario> usuarios) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Usuario getUsuarioEspecifico(int id) {
+        ArrayList<Usuario> usuarios= new ArrayList<>();;
+        for(Usuario user: usuarios){
+            if(user.getId()==id){
+                return user;
+            }            
+        }
+        return null;
     }
 }
