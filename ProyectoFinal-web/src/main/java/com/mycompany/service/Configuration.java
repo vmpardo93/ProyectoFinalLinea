@@ -6,12 +6,13 @@
 package com.mycompany.service;
 
 import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.core.Application;
 
 /**
  *
  * @author Darkgrey93
  */
 @ApplicationPath("api")
-public class Configuration {
+public class Configuration extends Application{
     
 }

@@ -6,6 +6,7 @@
 package com.mycompany.service;
 
 
+import com.mycompany.utilitarios.Token;
 import java.io.IOException;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -39,7 +40,7 @@ public class Interceptor implements ContainerRequestFilter{
                                                  .type(MediaType.APPLICATION_JSON)
                                                  .build());
                 
-        } else if(!token.equals("1a324910ae9b8b3a3b684cb535f21e956b9712eac7e04e87f71ef4aa0c177b1d")) {
+        } else if(!token.equals("eyJzdWIiOiJqdWFuIiwiaXNzIjoiY29ycmVvQGhvdG1haWwuY29tIiwiZXhwIjo2MTQ3NTYwNTIwMH0")) {
                 JsonObject json = Json.createObjectBuilder()
                                       .add("mensaje", "token incorrecto")
                                       .build();                

@@ -7,6 +7,7 @@ package com.mycompany.service;
 
 import com.mycompany.pojos.UsuarioLocal;
 import com.mycompany.utilitarios.Token;
+import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -23,15 +24,15 @@ import javax.ws.rs.core.Response;
  */
 @javax.enterprise.context.RequestScoped
 @Path("login")
-public class ServicioLogin {
+public class ServicioLogin implements Serializable{
     
     @EJB
     UsuarioLocal usuario;
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{user}/{pass}")    
-    public Response validarEstudiante(@PathParam("user") String user, @PathParam("pass") String pass) {
+    @Path("/{user},{pass}")    
+    public Response validarLogin(@PathParam("user") String user, @PathParam("pass") String pass) {
         
         if(user.equals("mechas") && pass.equals("1234")) {
                 JsonObject json = Json.createObjectBuilder()
@@ -46,5 +47,16 @@ public class ServicioLogin {
                 return Response.status(Response.Status.UNAUTHORIZED).entity(json).build();
                 
         }
+    }
+    
+    @GET
+    //@Produces(MediaType.APPLICATION_JSON)
+    @Path("/{token}")    
+    public Response desencriptar(@PathParam("token") String token) {
+        
+        //Token.imprimirEstructura(token);
+        Token.imprimirBody(token);
+        return Response.ok().build();                
+
     }
 }

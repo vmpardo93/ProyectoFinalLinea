@@ -27,15 +27,15 @@ public class Token {
         return token;
     }
     
-    private void imprimirEstructura(String token){
+    public static void imprimirEstructura(String token){
         Jws parseoClaseJws=Jwts.parser().setSigningKey("oEYRRobl6O").parseClaimsJws(token);
         
         System.out.println("Header: " + parseoClaseJws.getHeader());
-        System.out.println("Body: " + parseoClaseJws.getHeader());
-        System.out.println("Signature: " + parseoClaseJws.getHeader());
+        System.out.println("Body: " + parseoClaseJws.getBody());
+        System.out.println("Signature: " + parseoClaseJws.getSignature());
     }
     
-    private void imprimirBody(String token){
+    public static void imprimirBody(String token){
         
         Claims body=Jwts.parser().setSigningKey("oEYRRobl6O").parseClaimsJws(token).getBody();
         
