@@ -1,0 +1,7 @@
+pojos\Usuario.class
+pojos\Estudiante.class
+com\mycompany\UsuarioDto.class
+com\mycompany\UsuarioDtoLocal.class
+com\mycompany\MateriaDto.class
+pojos\Materia.class
+com\mycompany\MateriaDtoLocal.class
