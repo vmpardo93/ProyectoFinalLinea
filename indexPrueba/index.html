@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Hello, world!</title>
+
+
+</head>
+<body>
+
+
+		<form id="formIdLogin">
+		  <div class="form-group">
+		    <label for="exampleInputEmail1">Email address</label>
+		    <input type="input" class="form-control" id="email1" aria-describedby="emailHelp" placeholder="Enter email" required="true">
+		    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+		  </div>
+		  <div class="form-group">
+		    <label for="exampleInputPassword1">Password</label>
+		    <input type="password" class="form-control" id="password1" placeholder="Password" required="true">
+		  </div>
+		  
+		  <button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">            
+	       $(document).ready(function(){   
+
+ 				$( "#formIdLogin" ).submit(function( event ) {                    
+					
+                    //var log=$("#email1").val()+","+$("#password1").val() ;
+                    $.ajax({
+                      url: 'http://localhost:38242/mavenproject7/api/autho',
+
+                      /*headers: {
+                      	"TokenAuto":"1a324910ae9b8b3a3b684cb535f21e956b9712eac7e04e87f71ef4aa0c177b1d"
+                      },*/
+                      dataType: 'json',
+                      type: 'POST',
+                      contentType: 'application/json',       
+                      data: JSON.stringify({
+                      	usuario: $("#email1").val(),
+                      	contrasena: $("#password1").val()
+                      }),
+                      
+                      //var log=$("#email1").val()+","+$("#password1").val ;
+                      success: function( data, textStatus, jQxhr ){
+                          alert(textStatus);
+                       location.href="materiaPrueba.html";
+                      },
+                      error: function( jqXhr, textStatus, errorThrown){
+                          alert(textStatus);
+                      }
+                    });
+                    event.preventDefault();
+
+
+ 						
+				});
+
+	       });
+	</script>     	
+
+
+</body>
+</html>
