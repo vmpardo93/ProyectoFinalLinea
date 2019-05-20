@@ -5,6 +5,7 @@
  */
 package com.mycompany.service;
 
+import com.mycompany.beans.CrudUsuariosLocal;
 import com.mycompany.pojos.UsuarioLocal;
 import com.mycompany.utilitarios.Token;
 import java.io.Serializable;
@@ -28,6 +29,9 @@ public class ServicioLogin implements Serializable{
     
     @EJB
     UsuarioLocal usuario;
+    
+    @EJB
+    CrudUsuariosLocal user;
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -58,5 +62,13 @@ public class ServicioLogin implements Serializable{
         Token.imprimirBody(token);
         return Response.ok().build();                
 
+    }
+    
+    @GET
+    @Path("registro")    
+    public Response registrar() {
+        
+        user.agregarUsuario();
+        return Response.ok().build();                
     }
 }

@@ -18,7 +18,7 @@ import java.util.Date;
 public class Token {
     
     public static String generarToken() {
-        String token = Jwts.builder().setSubject("juan")
+        String token = Jwts.builder().setSubject("juan")                                    
                                     .setIssuer("correo@hotmail.com")
                                     .setExpiration(new Date(2018,1,1))
                                     .signWith(SignatureAlgorithm.HS512, "oEYRRobl6O").compact();
