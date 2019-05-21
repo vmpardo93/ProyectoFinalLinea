@@ -5,6 +5,7 @@
  */
 package com.mycompany.beans;
 
+import com.mycompany.entity.Usuarios;
 import javax.ejb.Local;
 
 /**
@@ -15,4 +16,5 @@ import javax.ejb.Local;
 public interface CrudUsuariosLocal {
     
     public void agregarUsuario();
+    public Usuarios validarLogin(String user, String contrasena);
 }

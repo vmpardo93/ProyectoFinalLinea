@@ -20,6 +20,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 import javax.transaction.UserTransaction;
 
 /**
@@ -194,6 +195,25 @@ public class UsuariosJpaController implements Serializable {
             return em.find(Usuarios.class, id);
         } finally {
             em.close();
+        }
+    }
+    
+    public Usuarios validarLogin(String usuario, String contrasena){
+        
+        try{
+            Usuarios u= new Usuarios();
+            TypedQuery<Usuarios>consultaUser=emf.createNamedQuery("Usuarios.findByNombreDeUsuario", Usuarios.class);
+            consultaUser.setParameter("nombreDeUsuario", usuario);
+            u = consultaUser.getSingleResult();
+            if(u.getClave().equals(contrasena)){
+                return u;
+            }else{
+                return null;
+            }
+            
+        }catch(Exception e){
+            System.out.println("Error: "+e.getMessage());
+            return null;
         }
     }
 

@@ -6,7 +6,7 @@
 package com.mycompany.service;
 
 import com.mycompany.beans.CrudUsuariosLocal;
-import com.mycompany.pojos.UsuarioLocal;
+import com.mycompany.entity.Usuarios;
 import com.mycompany.utilitarios.Token;
 import java.io.Serializable;
 import javax.ejb.EJB;
@@ -28,21 +28,23 @@ import javax.ws.rs.core.Response;
 public class ServicioLogin implements Serializable{
     
     @EJB
-    UsuarioLocal usuario;
+    CrudUsuariosLocal user;
     
     @EJB
-    CrudUsuariosLocal user;
+    CrudUsuariosLocal usuario;
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{user},{pass}")    
     public Response validarLogin(@PathParam("user") String user, @PathParam("pass") String pass) {
-        
-        if(user.equals("mechas") && pass.equals("1234")) {
+        Usuarios u=new Usuarios();
+        u=usuario.validarLogin(user, pass);
+        if(u!=null) {
                 JsonObject json = Json.createObjectBuilder()
-                                      .add("token-auto", Token.generarToken())
+                                      .add("token-auto", Token.generarToken(u.getNombreDeUsuario(),u.getCorreo()))
                                       .build();                
                 //return Response.status(Response.Status.OK).entity(json).build();
+                System.out.println(json);
                 return Response.ok(json).build();
         } else {
                 JsonObject json = Json.createObjectBuilder()

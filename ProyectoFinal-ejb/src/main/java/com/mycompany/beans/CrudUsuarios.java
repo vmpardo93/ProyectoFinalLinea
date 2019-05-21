@@ -16,8 +16,6 @@ import javax.ejb.Stateless;
 @Stateless
 public class CrudUsuarios implements CrudUsuariosLocal {
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
 
     @Override
     public void agregarUsuario() {
@@ -37,5 +35,15 @@ public class CrudUsuarios implements CrudUsuariosLocal {
             System.out.println("Error: "+e.getMessage());
         }
     }
-    
+
+    @Override
+    public Usuarios validarLogin(String user, String contrasena) {
+        UsuariosJpaController jpa= new UsuariosJpaController();
+        Usuarios u=new Usuarios();
+        u=jpa.validarLogin(user, contrasena);
+        if(u!=null){
+            return u;
+        }else
+            return null;
+    }
 }
