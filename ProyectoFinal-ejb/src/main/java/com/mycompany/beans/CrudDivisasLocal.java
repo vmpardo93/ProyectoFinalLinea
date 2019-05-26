@@ -5,6 +5,7 @@
  */
 package com.mycompany.beans;
 
+import com.mycompany.entity.Divisas;
 import com.mycompany.entity.Usuarios;
 import javax.ejb.Local;
 
@@ -13,10 +14,9 @@ import javax.ejb.Local;
  * @author fetec
  */
 @Local
-public interface CrudUsuariosLocal {
+public interface CrudDivisasLocal {
     
-    public void agregarUsuario();
-    public void editarUsuario(Usuarios u);
-    public void eliminarUsuario(int i);
-    public Usuarios validarLogin(String user, String contrasena);
+    public void agregarDivisa();
+    public void editarDivisa(Divisas d);
+    public void eliminarDivisa(int i);
 }

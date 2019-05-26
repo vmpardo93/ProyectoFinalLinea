@@ -8,17 +8,17 @@ package com.mycompany.entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -33,117 +33,106 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Usuarios.findAll", query = "SELECT u FROM Usuarios u"),
-    @NamedQuery(name = "Usuarios.findByIdUsuarios", query = "SELECT u FROM Usuarios u WHERE u.idUsuarios = :idUsuarios"),
-    @NamedQuery(name = "Usuarios.findByDocumento", query = "SELECT u FROM Usuarios u WHERE u.documento = :documento"),
-    @NamedQuery(name = "Usuarios.findByTipoDeDocumento", query = "SELECT u FROM Usuarios u WHERE u.tipoDeDocumento = :tipoDeDocumento"),
-    @NamedQuery(name = "Usuarios.findByNombres", query = "SELECT u FROM Usuarios u WHERE u.nombres = :nombres"),
-    @NamedQuery(name = "Usuarios.findByApellidos", query = "SELECT u FROM Usuarios u WHERE u.apellidos = :apellidos"),
-    @NamedQuery(name = "Usuarios.findByCorreo", query = "SELECT u FROM Usuarios u WHERE u.correo = :correo"),
-    @NamedQuery(name = "Usuarios.findByNombreDeUsuario", query = "SELECT u FROM Usuarios u WHERE u.nombreDeUsuario = :nombreDeUsuario"),
+    @NamedQuery(name = "Usuarios.findByIdUsuario", query = "SELECT u FROM Usuarios u WHERE u.idUsuario = :idUsuario"),
+    @NamedQuery(name = "Usuarios.findByNombre", query = "SELECT u FROM Usuarios u WHERE u.nombre = :nombre"),
+    @NamedQuery(name = "Usuarios.findByNombreUsuario", query = "SELECT u FROM Usuarios u WHERE u.nombreUsuario = :nombreUsuario"),
     @NamedQuery(name = "Usuarios.findByClave", query = "SELECT u FROM Usuarios u WHERE u.clave = :clave"),
-    @NamedQuery(name = "Usuarios.findByTelefono", query = "SELECT u FROM Usuarios u WHERE u.telefono = :telefono"),
-    @NamedQuery(name = "Usuarios.findByRurtaDocumento", query = "SELECT u FROM Usuarios u WHERE u.rurtaDocumento = :rurtaDocumento")})
+    @NamedQuery(name = "Usuarios.findByCorreo", query = "SELECT u FROM Usuarios u WHERE u.correo = :correo"),
+    @NamedQuery(name = "Usuarios.findByRutaFoto", query = "SELECT u FROM Usuarios u WHERE u.rutaFoto = :rutaFoto"),
+    @NamedQuery(name = "Usuarios.findByIdRol", query = "SELECT u FROM Usuarios u WHERE u.idRol = :idRol"),
+    @NamedQuery(name = "Usuarios.findByEstado", query = "SELECT u FROM Usuarios u WHERE u.estado = :estado"),
+    @NamedQuery(name = "Usuarios.findByToken", query = "SELECT u FROM Usuarios u WHERE u.token = :token")})
 public class Usuarios implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "idUsuarios")
-    private Integer idUsuarios;
-    @Size(max = 45)
-    @Column(name = "documento")
-    private String documento;
-    @Size(max = 45)
-    @Column(name = "tipoDeDocumento")
-    private String tipoDeDocumento;
-    @Size(max = 45)
-    @Column(name = "nombres")
-    private String nombres;
-    @Size(max = 45)
-    @Column(name = "apellidos")
-    private String apellidos;
-    @Size(max = 45)
-    @Column(name = "correo")
-    private String correo;
-    @Size(max = 45)
-    @Column(name = "nombreDeUsuario")
-    private String nombreDeUsuario;
-    @Size(max = 45)
+    @Column(name = "id_usuario")
+    private Integer idUsuario;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 20)
+    @Column(name = "nombre")
+    private String nombre;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 15)
+    @Column(name = "nombre_usuario")
+    private String nombreUsuario;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 30)
     @Column(name = "clave")
     private String clave;
-    @Size(max = 45)
-    @Column(name = "telefono")
-    private String telefono;
-    @Size(max = 45)
-    @Column(name = "rurtaDocumento")
-    private String rurtaDocumento;
-    @OneToMany(mappedBy = "idUsuario")
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 40)
+    @Column(name = "correo")
+    private String correo;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 300)
+    @Column(name = "ruta_foto")
+    private String rutaFoto;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "id_rol")
+    private int idRol;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "estado")
+    private int estado;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 300)
+    @Column(name = "token")
+    private String token;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
+    private List<Historial> historialList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private List<Saldos> saldosList;
-    @JoinColumn(name = "idRol", referencedColumnName = "idRoles")
-    @ManyToOne
-    private Roles idRol;
 
     public Usuarios() {
     }
 
-    public Usuarios(Integer idUsuarios) {
-        this.idUsuarios = idUsuarios;
+    public Usuarios(Integer idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
-    public Integer getIdUsuarios() {
-        return idUsuarios;
-    }
-
-    public void setIdUsuarios(Integer idUsuarios) {
-        this.idUsuarios = idUsuarios;
-    }
-
-    public String getDocumento() {
-        return documento;
-    }
-
-    public void setDocumento(String documento) {
-        this.documento = documento;
-    }
-
-    public String getTipoDeDocumento() {
-        return tipoDeDocumento;
-    }
-
-    public void setTipoDeDocumento(String tipoDeDocumento) {
-        this.tipoDeDocumento = tipoDeDocumento;
-    }
-
-    public String getNombres() {
-        return nombres;
-    }
-
-    public void setNombres(String nombres) {
-        this.nombres = nombres;
-    }
-
-    public String getApellidos() {
-        return apellidos;
-    }
-
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
-    }
-
-    public String getCorreo() {
-        return correo;
-    }
-
-    public void setCorreo(String correo) {
+    public Usuarios(Integer idUsuario, String nombre, String nombreUsuario, String clave, String correo, String rutaFoto, int idRol, int estado, String token) {
+        this.idUsuario = idUsuario;
+        this.nombre = nombre;
+        this.nombreUsuario = nombreUsuario;
+        this.clave = clave;
         this.correo = correo;
+        this.rutaFoto = rutaFoto;
+        this.idRol = idRol;
+        this.estado = estado;
+        this.token = token;
     }
 
-    public String getNombreDeUsuario() {
-        return nombreDeUsuario;
+    public Integer getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setNombreDeUsuario(String nombreDeUsuario) {
-        this.nombreDeUsuario = nombreDeUsuario;
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
     }
 
     public String getClave() {
@@ -154,20 +143,54 @@ public class Usuarios implements Serializable {
         this.clave = clave;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getCorreo() {
+        return correo;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
-    public String getRurtaDocumento() {
-        return rurtaDocumento;
+    public String getRutaFoto() {
+        return rutaFoto;
     }
 
-    public void setRurtaDocumento(String rurtaDocumento) {
-        this.rurtaDocumento = rurtaDocumento;
+    public void setRutaFoto(String rutaFoto) {
+        this.rutaFoto = rutaFoto;
+    }
+
+    public int getIdRol() {
+        return idRol;
+    }
+
+    public void setIdRol(int idRol) {
+        this.idRol = idRol;
+    }
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    @XmlTransient
+    @JsonIgnore
+    public List<Historial> getHistorialList() {
+        return historialList;
+    }
+
+    public void setHistorialList(List<Historial> historialList) {
+        this.historialList = historialList;
     }
 
     @XmlTransient
@@ -180,18 +203,10 @@ public class Usuarios implements Serializable {
         this.saldosList = saldosList;
     }
 
-    public Roles getIdRol() {
-        return idRol;
-    }
-
-    public void setIdRol(Roles idRol) {
-        this.idRol = idRol;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idUsuarios != null ? idUsuarios.hashCode() : 0);
+        hash += (idUsuario != null ? idUsuario.hashCode() : 0);
         return hash;
     }
 
@@ -202,7 +217,7 @@ public class Usuarios implements Serializable {
             return false;
         }
         Usuarios other = (Usuarios) object;
-        if ((this.idUsuarios == null && other.idUsuarios != null) || (this.idUsuarios != null && !this.idUsuarios.equals(other.idUsuarios))) {
+        if ((this.idUsuario == null && other.idUsuario != null) || (this.idUsuario != null && !this.idUsuario.equals(other.idUsuario))) {
             return false;
         }
         return true;
@@ -210,7 +225,7 @@ public class Usuarios implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mycompany.entity.Usuarios[ idUsuarios=" + idUsuarios + " ]";
+        return "com.mycompany.entity.Usuarios[ idUsuario=" + idUsuario + " ]";
     }
     
 }

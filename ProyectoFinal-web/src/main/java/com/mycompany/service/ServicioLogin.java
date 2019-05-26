@@ -30,18 +30,15 @@ public class ServicioLogin implements Serializable{
     @EJB
     CrudUsuariosLocal user;
     
-    @EJB
-    CrudUsuariosLocal usuario;
-    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{user},{pass}")    
     public Response validarLogin(@PathParam("user") String user, @PathParam("pass") String pass) {
         Usuarios u=new Usuarios();
-        u=usuario.validarLogin(user, pass);
+        //u=usuario.validarLogin(user, pass);
         if(u!=null) {
                 JsonObject json = Json.createObjectBuilder()
-                                      .add("token-auto", Token.generarToken(u.getNombreDeUsuario(),u.getCorreo()))
+                                      .add("token-auto", Token.generarToken(u.getNombre(),u.getCorreo()))
                                       .build();                
                 //return Response.status(Response.Status.OK).entity(json).build();
                 System.out.println(json);

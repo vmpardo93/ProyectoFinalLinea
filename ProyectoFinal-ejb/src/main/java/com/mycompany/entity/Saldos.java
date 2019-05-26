@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -28,54 +29,63 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Saldos.findAll", query = "SELECT s FROM Saldos s"),
-    @NamedQuery(name = "Saldos.findByIdSaldos", query = "SELECT s FROM Saldos s WHERE s.idSaldos = :idSaldos"),
+    @NamedQuery(name = "Saldos.findByIdSaldo", query = "SELECT s FROM Saldos s WHERE s.idSaldo = :idSaldo"),
     @NamedQuery(name = "Saldos.findBySaldoActual", query = "SELECT s FROM Saldos s WHERE s.saldoActual = :saldoActual"),
-    @NamedQuery(name = "Saldos.findBySaldoTempotal", query = "SELECT s FROM Saldos s WHERE s.saldoTempotal = :saldoTempotal")})
+    @NamedQuery(name = "Saldos.findBySaldoTemporal", query = "SELECT s FROM Saldos s WHERE s.saldoTemporal = :saldoTemporal")})
 public class Saldos implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "idSaldos")
-    private Integer idSaldos;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "saldoActual")
-    private Double saldoActual;
-    @Column(name = "saldoTempotal")
-    private Double saldoTempotal;
-    @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuarios")
-    @ManyToOne
+    @Column(name = "id_saldo")
+    private Integer idSaldo;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "saldo_actual")
+    private double saldoActual;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "saldo_temporal")
+    private double saldoTemporal;
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
+    @ManyToOne(optional = false)
     private Usuarios idUsuario;
 
     public Saldos() {
     }
 
-    public Saldos(Integer idSaldos) {
-        this.idSaldos = idSaldos;
+    public Saldos(Integer idSaldo) {
+        this.idSaldo = idSaldo;
     }
 
-    public Integer getIdSaldos() {
-        return idSaldos;
+    public Saldos(Integer idSaldo, double saldoActual, double saldoTemporal) {
+        this.idSaldo = idSaldo;
+        this.saldoActual = saldoActual;
+        this.saldoTemporal = saldoTemporal;
     }
 
-    public void setIdSaldos(Integer idSaldos) {
-        this.idSaldos = idSaldos;
+    public Integer getIdSaldo() {
+        return idSaldo;
     }
 
-    public Double getSaldoActual() {
+    public void setIdSaldo(Integer idSaldo) {
+        this.idSaldo = idSaldo;
+    }
+
+    public double getSaldoActual() {
         return saldoActual;
     }
 
-    public void setSaldoActual(Double saldoActual) {
+    public void setSaldoActual(double saldoActual) {
         this.saldoActual = saldoActual;
     }
 
-    public Double getSaldoTempotal() {
-        return saldoTempotal;
+    public double getSaldoTemporal() {
+        return saldoTemporal;
     }
 
-    public void setSaldoTempotal(Double saldoTempotal) {
-        this.saldoTempotal = saldoTempotal;
+    public void setSaldoTemporal(double saldoTemporal) {
+        this.saldoTemporal = saldoTemporal;
     }
 
     public Usuarios getIdUsuario() {
@@ -89,7 +99,7 @@ public class Saldos implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idSaldos != null ? idSaldos.hashCode() : 0);
+        hash += (idSaldo != null ? idSaldo.hashCode() : 0);
         return hash;
     }
 
@@ -100,7 +110,7 @@ public class Saldos implements Serializable {
             return false;
         }
         Saldos other = (Saldos) object;
-        if ((this.idSaldos == null && other.idSaldos != null) || (this.idSaldos != null && !this.idSaldos.equals(other.idSaldos))) {
+        if ((this.idSaldo == null && other.idSaldo != null) || (this.idSaldo != null && !this.idSaldo.equals(other.idSaldo))) {
             return false;
         }
         return true;
@@ -108,7 +118,7 @@ public class Saldos implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mycompany.entity.Saldos[ idSaldos=" + idSaldos + " ]";
+        return "com.mycompany.entity.Saldos[ idSaldo=" + idSaldo + " ]";
     }
     
 }

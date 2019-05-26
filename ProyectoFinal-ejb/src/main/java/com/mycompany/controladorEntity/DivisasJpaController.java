@@ -5,30 +5,28 @@
  */
 package com.mycompany.controladorEntity;
 
-import com.mycompany.controladorEntity.exceptions.IllegalOrphanException;
 import com.mycompany.controladorEntity.exceptions.NonexistentEntityException;
+import com.mycompany.controladorEntity.exceptions.PreexistingEntityException;
 import com.mycompany.controladorEntity.exceptions.RollbackFailureException;
+import com.mycompany.entity.Divisas;
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
-import java.util.List;
-import com.mycompany.entity.Saldos;
-import com.mycompany.entity.Usuarios;
-import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
 import javax.transaction.UserTransaction;
 
 /**
  *
  * @author fetec
  */
-public class UsuariosJpaController implements Serializable {
+public class DivisasJpaController implements Serializable {
 
-    public UsuariosJpaController() {
+    public DivisasJpaController() {
         this.emf = Persistence.createEntityManagerFactory("com.mycompany_ProyectoFinal-ejb_ejb_1.0-SNAPSHOTPU").createEntityManager();
     }
     private UserTransaction utx = null;
@@ -38,28 +36,10 @@ public class UsuariosJpaController implements Serializable {
         return emf;
     }
 
-    public void create(Usuarios usuarios) throws RollbackFailureException, Exception {
-        if (usuarios.getSaldosList() == null) {
-            usuarios.setSaldosList(new ArrayList<Saldos>());
-        }
-        
+    public void create(Divisas divisas) throws PreexistingEntityException, RollbackFailureException, Exception {
         try {
             emf.getTransaction().begin();
-            emf.persist(usuarios);
-            emf.getTransaction().commit();
-        }catch (Exception ex) {            
-            throw ex;
-        } finally {
-            if (emf != null) {
-                emf.close();
-            }
-        }
-    }
-
-    public void edit(Usuarios usuarios) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
-        try {
-            emf.getTransaction().begin();
-            emf.merge(usuarios);
+            emf.persist(divisas);
             emf.getTransaction().commit();
         } catch (Exception ex) {
             throw ex;
@@ -70,17 +50,31 @@ public class UsuariosJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
+    public void edit(Divisas divisas) throws NonexistentEntityException, RollbackFailureException, Exception {
         try {
             emf.getTransaction().begin();
-            Usuarios u;
+            emf.merge(divisas);
+            emf.getTransaction().commit();
+        } catch (Exception ex) {
+            throw ex;
+        } finally {
+            if (emf != null) {
+                emf.close();
+            }
+        }
+    }
+
+    public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
+        try {
+            emf.getTransaction().begin();
+            Divisas d;
             try {
-                u = emf.getReference(Usuarios.class, id);
-                u.getIdUsuario();
+                d = emf.getReference(Divisas.class, id);
+                d.getIdDivisa();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The bitacora with id " + id + " no longer exists.", enfe);
             }
-            emf.remove(u);
+            emf.remove(d);
             emf.getTransaction().commit();
         } catch (Exception ex) {            
             throw ex;
@@ -91,19 +85,19 @@ public class UsuariosJpaController implements Serializable {
         }
     }
 
-    public List<Usuarios> findUsuariosEntities() {
-        return findUsuariosEntities(true, -1, -1);
+    public List<Divisas> findDivisasEntities() {
+        return findDivisasEntities(true, -1, -1);
     }
 
-    public List<Usuarios> findUsuariosEntities(int maxResults, int firstResult) {
-        return findUsuariosEntities(false, maxResults, firstResult);
+    public List<Divisas> findDivisasEntities(int maxResults, int firstResult) {
+        return findDivisasEntities(false, maxResults, firstResult);
     }
 
-    private List<Usuarios> findUsuariosEntities(boolean all, int maxResults, int firstResult) {
+    private List<Divisas> findDivisasEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Usuarios.class));
+            cq.select(cq.from(Divisas.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -115,39 +109,20 @@ public class UsuariosJpaController implements Serializable {
         }
     }
 
-    public Usuarios findUsuarios(Integer id) {
+    public Divisas findDivisas(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Usuarios.class, id);
+            return em.find(Divisas.class, id);
         } finally {
             em.close();
         }
     }
-    
-    public Usuarios validarLogin(String usuario, String contrasena){
-        
-        try{
-            Usuarios u= new Usuarios();
-            TypedQuery<Usuarios>consultaUser=emf.createNamedQuery("Usuarios.findByNombreDeUsuario", Usuarios.class);
-            consultaUser.setParameter("nombreDeUsuario", usuario);
-            u = consultaUser.getSingleResult();
-            if(u.getClave().equals(contrasena)){
-                return u;
-            }else{
-                return null;
-            }
-            
-        }catch(Exception e){
-            System.out.println("Error: "+e.getMessage());
-            return null;
-        }
-    }
 
-    public int getUsuariosCount() {
+    public int getDivisasCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Usuarios> rt = cq.from(Usuarios.class);
+            Root<Divisas> rt = cq.from(Divisas.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

@@ -22,14 +22,14 @@ public class CrudUsuarios implements CrudUsuariosLocal {
         try{
             UsuariosJpaController jpa= new UsuariosJpaController();
             Usuarios u=new Usuarios();
-            u.setApellidos("ApellidoPrueba");
+            u.setNombre("Juan");
+            u.setNombreUsuario("dark");
             u.setClave("1234");
             u.setCorreo("prueba@prueba.com");
-            u.setDocumento("1234567");            
-            u.setRurtaDocumento("3124567jtygrefvdcw");
-            u.setNombreDeUsuario("PruebaNombre");
-            u.setTelefono("142567");
-            u.setTipoDeDocumento("CC");
+            u.setRutaFoto("3254ty6e5grsd");
+            u.setIdRol(1);
+            u.setEstado(1);
+            u.setToken("defrg674543");
             jpa.create(u);
         }catch(Exception e){
             System.out.println("Error: "+e.getMessage());
@@ -45,5 +45,20 @@ public class CrudUsuarios implements CrudUsuariosLocal {
             return u;
         }else
             return null;
+    }
+
+    @Override
+    public void editarUsuario(Usuarios u) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void eliminarUsuario(int i) {
+        try{
+            UsuariosJpaController jpa=new UsuariosJpaController();
+            jpa.destroy(i);
+        }catch(Exception ex){
+            System.out.println("Ha ocurrido un error");
+        }
     }
 }

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.pojos;
+package com.mycompany.beans;
 
-import java.util.ArrayList;
+import com.mycompany.entity.Historial;
 import javax.ejb.Local;
 
 /**
@@ -13,10 +13,9 @@ import javax.ejb.Local;
  * @author fetec
  */
 @Local
-public interface UsuarioLocal {
+public interface CrudHistorialLocal {
     
-    public ArrayList<Usuario> getUsuarios();
-    public void setUsuarios(ArrayList<Usuario> usuarios);
-    public Usuario getUsuarioEspecifico(int id);
-    
+    public void agregarHistorial();
+    public void editarHistorial(Historial u);
+    public void eliminarHistorial(int i);
 }
