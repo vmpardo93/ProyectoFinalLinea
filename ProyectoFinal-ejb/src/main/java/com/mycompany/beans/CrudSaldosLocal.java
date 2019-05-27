@@ -5,8 +5,8 @@
  */
 package com.mycompany.beans;
 
-import com.mycompany.entity.Saldos;
-import com.mycompany.entity.Usuarios;
+
+import com.mycompany.pojos.PojoSaldo;
 import javax.ejb.Local;
 
 /**
@@ -16,7 +16,7 @@ import javax.ejb.Local;
 @Local
 public interface CrudSaldosLocal {
     
-    public void agregarSaldo();
-    public void editarSaldo(Saldos s);
+    public void agregarSaldo(PojoSaldo s);
+    public void editarSaldo(PojoSaldo s);
     public void eliminarSaldo(int i);
 }

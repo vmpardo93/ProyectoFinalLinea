@@ -5,8 +5,13 @@
  */
 package com.mycompany.service;
 
+import com.mycompany.beans.CrudDivisasLocal;
+import com.mycompany.beans.CrudSaldosLocal;
 import com.mycompany.beans.CrudUsuariosLocal;
 import com.mycompany.entity.Usuarios;
+import com.mycompany.pojos.PojoDivisa;
+import com.mycompany.pojos.PojoSaldo;
+import com.mycompany.pojos.PojoUsuario;
 import com.mycompany.utilitarios.Token;
 import java.io.Serializable;
 import javax.ejb.EJB;
@@ -29,6 +34,12 @@ public class ServicioLogin implements Serializable{
     
     @EJB
     CrudUsuariosLocal user;
+    
+    @EJB
+    CrudSaldosLocal saldo;
+    
+    @EJB
+    CrudDivisasLocal divisa;
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -66,8 +77,31 @@ public class ServicioLogin implements Serializable{
     @GET
     @Path("registro")    
     public Response registrar() {
+        /*PojoUsuario p=new PojoUsuario();
+        p.setId(1);
+        p.setNombre("arturo"); 
+        p.setNombreUsuario("artiruto21");
+        p.setClave("clavearturo");
+        p.setCorreo("arturo@hot.com");
+        p.setEstado(1);
+        p.setIdRol(1);
+        p.setRutaFoto("kgtrjfdjkg");
+        p.setToken("58769i05gfywhnmf");
+        user.editarUsuario(p);
         
-        user.agregarUsuario();
-        return Response.ok().build();                
+        PojoSaldo s=new PojoSaldo();
+        s.setIdSaldo(1);
+        s.setIdUsuario(1);
+        s.setSaldoActual(20.2D);
+        s.setSaldoTemporal(50.5D);        
+        saldo.editarSaldo(s);*/
+        
+        PojoDivisa d=new PojoDivisa();        
+        d.setIdDivisa(2);
+        d.setValor(1.7D);
+        d.setDivisa("EUR/USD");
+        divisa.editarDivisa(d);
+        
+        return Response.ok().build();            
     }
 }

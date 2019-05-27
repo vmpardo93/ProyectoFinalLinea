@@ -7,6 +7,7 @@ package com.mycompany.beans;
 
 import com.mycompany.entity.Divisas;
 import com.mycompany.entity.Usuarios;
+import com.mycompany.pojos.PojoDivisa;
 import javax.ejb.Local;
 
 /**
@@ -16,7 +17,7 @@ import javax.ejb.Local;
 @Local
 public interface CrudDivisasLocal {
     
-    public void agregarDivisa();
-    public void editarDivisa(Divisas d);
+    public void agregarDivisa(PojoDivisa d);
+    public void editarDivisa(PojoDivisa d);
     public void eliminarDivisa(int i);
 }

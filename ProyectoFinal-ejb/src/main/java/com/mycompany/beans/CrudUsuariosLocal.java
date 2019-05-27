@@ -6,6 +6,7 @@
 package com.mycompany.beans;
 
 import com.mycompany.entity.Usuarios;
+import com.mycompany.pojos.PojoUsuario;
 import javax.ejb.Local;
 
 /**
@@ -15,8 +16,8 @@ import javax.ejb.Local;
 @Local
 public interface CrudUsuariosLocal {
     
-    public void agregarUsuario();
-    public void editarUsuario(Usuarios u);
+    public void agregarUsuario(PojoUsuario p);
+    public void editarUsuario(PojoUsuario p);
     public void eliminarUsuario(int i);
     public Usuarios validarLogin(String user, String contrasena);
 }

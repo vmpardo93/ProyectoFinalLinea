@@ -5,9 +5,14 @@
  */
 package com.mycompany.beans;
 
+
+import com.mycompany.controladorEntity.DivisasJpaController;
 import com.mycompany.controladorEntity.HistorialJpaController;
+import com.mycompany.entity.Divisas;
 import com.mycompany.entity.Historial;
+import com.mycompany.pojos.PojoHistorial;
 import javax.ejb.Stateless;
+import org.modelmapper.ModelMapper;
 
 /**
  *
@@ -17,13 +22,53 @@ import javax.ejb.Stateless;
 public class CrudHistorial implements CrudHistorialLocal {
 
     @Override
-    public void agregarHistorial() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void agregarHistorial(PojoHistorial h) {
+        try{
+            ModelMapper modelMapper = new ModelMapper();
+            Historial s = modelMapper.map(h, Historial.class);
+            HistorialJpaController jpa= new HistorialJpaController();
+            jpa.create(s);
+        }catch(Exception e){
+            System.out.println("Error: "+e.getMessage());
+        }
     }
 
     @Override
-    public void editarHistorial(Historial u) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void editarHistorial(PojoHistorial h) {
+        ModelMapper modelMapper = new ModelMapper();
+        Historial hi = modelMapper.map(h, Historial.class);
+        try{
+            Historial historial;
+            HistorialJpaController jpa=new HistorialJpaController();
+            historial=jpa.getEntityManager().getReference(Historial.class, hi.getIdHistorial());
+            if(hi.getIdHistorial()!=null){
+                historial.setIdHistorial(hi.getIdHistorial());
+            }
+            if(hi.getDivisa()!=null){
+                historial.setDivisa(hi.getDivisa());
+            }
+            if(!hi.getValor().isNaN()){
+                historial.setValor(hi.getValor());
+            }
+            if(hi.getTipoTransaccion()!=null){
+                historial.setTipoTransaccion(hi.getTipoTransaccion());
+            }
+            if(!hi.getFechaAbrio().equals(null)){
+                historial.setFechaAbrio(hi.getFechaAbrio());
+            }
+            if(!hi.getFechaCerro().equals(null)){
+                historial.setFechaCerro(hi.getFechaCerro());
+            }
+            if(!h.getPuntos().isNaN()){
+                historial.setValor(hi.getPuntos());
+            }
+            if(hi.getIdUsuario().getIdUsuario()!=null){
+                historial.setIdUsuario(hi.getIdUsuario());
+            }
+            jpa.edit(historial);
+        }catch(Exception ex){
+            System.out.println("Ha ocurrido un error");
+        }
     }
 
     @Override

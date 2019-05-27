@@ -6,6 +6,7 @@
 package com.mycompany.beans;
 
 import com.mycompany.entity.Historial;
+import com.mycompany.pojos.PojoHistorial;
 import javax.ejb.Local;
 
 /**
@@ -15,7 +16,7 @@ import javax.ejb.Local;
 @Local
 public interface CrudHistorialLocal {
     
-    public void agregarHistorial();
-    public void editarHistorial(Historial u);
+    public void agregarHistorial(PojoHistorial h);
+    public void editarHistorial(PojoHistorial h);
     public void eliminarHistorial(int i);
 }

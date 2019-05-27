@@ -8,16 +8,19 @@ package com.mycompany.controladorEntity;
 import com.mycompany.controladorEntity.exceptions.IllegalOrphanException;
 import com.mycompany.controladorEntity.exceptions.NonexistentEntityException;
 import com.mycompany.controladorEntity.exceptions.RollbackFailureException;
+import com.mycompany.entity.Divisas;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import com.mycompany.entity.Historial;
 import java.util.ArrayList;
 import java.util.List;
 import com.mycompany.entity.Saldos;
 import com.mycompany.entity.Usuarios;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import javax.transaction.UserTransaction;
@@ -29,6 +32,7 @@ import javax.transaction.UserTransaction;
 public class UsuariosJpaController implements Serializable {
 
     public UsuariosJpaController() {
+        
         this.emf = Persistence.createEntityManagerFactory("com.mycompany_ProyectoFinal-ejb_ejb_1.0-SNAPSHOTPU").createEntityManager();
     }
     private UserTransaction utx = null;
@@ -39,15 +43,17 @@ public class UsuariosJpaController implements Serializable {
     }
 
     public void create(Usuarios usuarios) throws RollbackFailureException, Exception {
+        if (usuarios.getHistorialList() == null) {
+            usuarios.setHistorialList(new ArrayList<Historial>());
+        }
         if (usuarios.getSaldosList() == null) {
             usuarios.setSaldosList(new ArrayList<Saldos>());
         }
-        
         try {
             emf.getTransaction().begin();
             emf.persist(usuarios);
             emf.getTransaction().commit();
-        }catch (Exception ex) {            
+        } catch (Exception ex) {
             throw ex;
         } finally {
             if (emf != null) {

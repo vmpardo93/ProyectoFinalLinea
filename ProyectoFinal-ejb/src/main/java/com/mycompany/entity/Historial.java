@@ -6,6 +6,7 @@
 package com.mycompany.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -33,7 +36,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Historial.findByIdHistorial", query = "SELECT h FROM Historial h WHERE h.idHistorial = :idHistorial"),
     @NamedQuery(name = "Historial.findByDivisa", query = "SELECT h FROM Historial h WHERE h.divisa = :divisa"),
     @NamedQuery(name = "Historial.findByValor", query = "SELECT h FROM Historial h WHERE h.valor = :valor"),
-    @NamedQuery(name = "Historial.findByTipoTransaccion", query = "SELECT h FROM Historial h WHERE h.tipoTransaccion = :tipoTransaccion")})
+    @NamedQuery(name = "Historial.findByTipoTransaccion", query = "SELECT h FROM Historial h WHERE h.tipoTransaccion = :tipoTransaccion"),
+    @NamedQuery(name = "Historial.findByFechaAbrio", query = "SELECT h FROM Historial h WHERE h.fechaAbrio = :fechaAbrio"),
+    @NamedQuery(name = "Historial.findByFechaCerro", query = "SELECT h FROM Historial h WHERE h.fechaCerro = :fechaCerro"),
+    @NamedQuery(name = "Historial.findByPuntos", query = "SELECT h FROM Historial h WHERE h.puntos = :puntos")})
 public class Historial implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -54,6 +60,20 @@ public class Historial implements Serializable {
     @Size(min = 1, max = 11)
     @Column(name = "tipo_transaccion")
     private String tipoTransaccion;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "fecha_abrio")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaAbrio;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "fecha_cerro")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaCerro;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "puntos")
+    private double puntos;
     @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
     @ManyToOne(optional = false)
     private Usuarios idUsuario;
@@ -65,10 +85,13 @@ public class Historial implements Serializable {
         this.idHistorial = idHistorial;
     }
 
-    public Historial(Integer idHistorial, String divisa, String tipoTransaccion) {
+    public Historial(Integer idHistorial, String divisa, String tipoTransaccion, Date fechaAbrio, Date fechaCerro, double puntos) {
         this.idHistorial = idHistorial;
         this.divisa = divisa;
         this.tipoTransaccion = tipoTransaccion;
+        this.fechaAbrio = fechaAbrio;
+        this.fechaCerro = fechaCerro;
+        this.puntos = puntos;
     }
 
     public Integer getIdHistorial() {
@@ -101,6 +124,30 @@ public class Historial implements Serializable {
 
     public void setTipoTransaccion(String tipoTransaccion) {
         this.tipoTransaccion = tipoTransaccion;
+    }
+
+    public Date getFechaAbrio() {
+        return fechaAbrio;
+    }
+
+    public void setFechaAbrio(Date fechaAbrio) {
+        this.fechaAbrio = fechaAbrio;
+    }
+
+    public Date getFechaCerro() {
+        return fechaCerro;
+    }
+
+    public void setFechaCerro(Date fechaCerro) {
+        this.fechaCerro = fechaCerro;
+    }
+
+    public double getPuntos() {
+        return puntos;
+    }
+
+    public void setPuntos(double puntos) {
+        this.puntos = puntos;
     }
 
     public Usuarios getIdUsuario() {
